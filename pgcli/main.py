@@ -203,6 +203,15 @@ class PGCli(object):
                                 'Execute commands from file.')
         self.pgspecial.register(self.write_to_file, '\\o', '\\o [filename]',
                                 'Send all query results to file.')
+        self.pgspecial.register(self.info_connection, '\\conninfo',
+                                '\\conninfo', 'Get connection details')
+
+    def info_connection(self, **_):
+        yield (None, None, None, 'You are connected to database "%s" as user '
+               '"%s" on host "%s" at port "%s".' % (self.pgexecute.dbname,
+                                                    self.pgexecute.user,
+                                                    self.pgexecute.host,
+                                                    self.pgexecute.port))
 
     def change_db(self, pattern, **_):
         if pattern:
